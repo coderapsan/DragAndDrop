@@ -1,0 +1,48 @@
+import { Button } from "antd";
+import { useState, useEffect } from "react";
+import React from "react";
+
+
+
+const AllPokemon = () => {
+  const [pokemonData, setPokemonData] = useState([]);
+  const [draggedData, setDraggedData] = useState([]);
+
+  useEffect(() => {
+    fetch("https://pokeapi.co/api/v2/pokemon/")
+      .then(response => response.json())
+      .then(data => {
+        setPokemonData(data.results);
+      })
+      .catch(error => {
+        console.log("Error fetching Pokémon data:", error);
+      });
+  }, []);
+
+  const handleClick = (event) => {
+    const value = event.value;
+  
+  };
+
+  return (
+    <div>
+      {pokemonData.map(pokemon => (
+        <ul style={{ listStyleType: "none" }} key={pokemon.name}>
+          <li>
+            <Button
+              className="pokemonButton"
+              type="default"
+              onClick={() => handleClick(pokemon.name)}
+            >
+              {pokemon.name}
+            </Button>
+          </li>
+        </ul>
+      ))}
+
+      <MyPokemon data={draggedData} />
+    </div>
+  );
+};
+
+export default AllPokemon;
